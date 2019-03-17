@@ -1,0 +1,17 @@
+#compdef kv
+_arguments -C \
+    '(-): :->command' \
+    '(-)*:: :->arg'
+
+case $state in
+    (command)
+        local -a cmds=("${(@f)$(kv complete-commands)}")
+        _describe 'commands' cmds
+        ;;
+    (arg)
+        local -a opts=("${(@f)$(kv complete-keys)}")
+        if [[ $opts != "" ]]; then
+            _describe 'keys' opts
+        fi
+        ;;
+esac
