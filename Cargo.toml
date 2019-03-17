@@ -1,0 +1,9 @@
+[package]
+name = "kv"
+version = "0.1.0"
+authors = ["Zandr Martin <zandrmartin@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+serde_json = "1.0.39"
+clap = "2.32.0"
