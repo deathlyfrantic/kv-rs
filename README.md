@@ -3,9 +3,9 @@
 A basic CLI key:value store. A Rust rewrite of
 [kv](https://github.com/deathlyfrantic/kv).
 
-## Setup
+## Installation
 
-`cargo build --release`
+`cargo install --path .`
 
 ## Usage
 
