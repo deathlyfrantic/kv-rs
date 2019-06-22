@@ -46,7 +46,7 @@ fn get(key: &str) -> Result<String, Error> {
 }
 
 fn set(key: &str, value: &str, force: bool) -> Result<String, Error> {
-    let mut json = load_json().unwrap_or(Map::new());
+    let mut json = load_json().unwrap_or_default();
     if json.contains_key(key) && !force {
         return Err(Error::new(
             ErrorKind::AlreadyExists,
@@ -75,8 +75,8 @@ fn delete(key: &str) -> Result<String, Error> {
 }
 
 fn list() -> Result<String, Error> {
-    let json = load_json().unwrap_or(Map::new());
-    Ok(if json.len() == 0 {
+    let json = load_json().unwrap_or_default();
+    Ok(if json.is_empty() {
         "No keys found.".to_string()
     } else {
         let mut items = vec![];
