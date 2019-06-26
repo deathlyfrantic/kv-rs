@@ -1,6 +1,7 @@
 use clap::{crate_authors, crate_name, crate_version, App, AppSettings, Arg, SubCommand};
 use serde_json::{from_value, to_value, Map, Value};
 use std::{
+    env,
     fs::{read_to_string, write},
     io::{Error, ErrorKind},
     path::{Path, PathBuf},
@@ -8,12 +9,18 @@ use std::{
 };
 
 fn file_path() -> PathBuf {
-    let xdg_data_home = Path::new(env!("XDG_DATA_HOME"));
-    if xdg_data_home.is_dir() {
-        xdg_data_home.join("kv.json")
+    let path = if let Ok(home) = env::var("HOME") {
+        Path::new(&home).join(".kv.json")
     } else {
-        Path::new(env!("HOME")).join(".kv.json")
+        PathBuf::new().join("kv.json")
+    };
+    if let Ok(xdg_data_home) = env::var("XDG_DATA_HOME") {
+        let xdg_data_home = Path::new(&xdg_data_home);
+        if xdg_data_home.is_dir() {
+            return xdg_data_home.join("kv.json");
+        }
     }
+    path
 }
 
 fn load_json() -> Result<Map<String, Value>, Error> {
